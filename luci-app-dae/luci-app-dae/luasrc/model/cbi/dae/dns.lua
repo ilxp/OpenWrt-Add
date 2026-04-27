@@ -14,9 +14,12 @@ dns {
     upstream {
         localdns: 'udp://127.0.0.1:53'
         overseadns: 'tcp+udp://1.0.0.1:53'
+        nodedns: 'udp://111.222.333.444:53'
     }
     routing {
         request {
+            sub(sub_name) -> overseadns
+            subnode(sub_name) && subnode(name_keyword: 114514) -> nodedns
             qtype(https) -> reject
             qname(geosite:gfw) -> overseadns
             fallback: localdns
